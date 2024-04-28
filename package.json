@@ -1,0 +1,41 @@
+{
+  "name": "langchain-docu-chat",
+  "description": "Langchain-powered document review",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.564.0",
+    "@aws-sdk/lib-storage": "^3.564.0",
+    "@langchain/openai": "^0.0.28",
+    "@types/formidable": "^3.4.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "formidable": "^3.5.1",
+    "langchain": "^0.1.36"
+  },
+  "scripts": {
+    "start": "npx tsc && nodemon dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fiyin-Anne/langchain-docu-chat.git"
+  },
+  "keywords": [
+    "langChain",
+    "AI",
+    "document",
+    "upload"
+  ],
+  "author": "Fiyin Akinsiku",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fiyin-Anne/langchain-docu-chat/issues"
+  },
+  "homepage": "https://github.com/Fiyin-Anne/langchain-docu-chat#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.5"
+  }
+}

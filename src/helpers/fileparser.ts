@@ -22,7 +22,7 @@ const streamHandler = (file: any) => {
         params: {
             ACL: 'public-read',
             Bucket: process.env.S3_BUCKET || "",
-            Key: `langchain/docs/${Date.now().toString()}-${file.originalFilename}`,
+            Key: `langchain/docs/${Date.now().toString()}.pdf`, //-${file.originalFilename}`, TO-DO: sort out names with spaces later
             Body: dataStream
         },
         tags: [], // optional tags
@@ -58,18 +58,28 @@ const parsefile = async (req: Request): Promise<UploadFile> => {
         return new Promise((resolve, reject) => {
             let options = {
                 maxFileSize: 5 * 1024 * 1024, //5 megabytes converted to bytes,
+                maxFiles: 1,
                 allowEmptyFiles: false,
                 fileWriteStreamHandler: streamHandler,
             }
 
             const form = formidable(options);
+
             form.parse(req, (error, fields, files) => {
+                if (error) {
+                    let message: string = error.message;
+                    if (error.message.indexOf('options.maxFiles') !== -1) {
+                        message = `Maximum number of files (1) exceeded`;
+                    }
+                    customEmitter.emit('error', message);
+                }
+
                 if (!Object.keys(files).length) {
                     customEmitter.emit('error', 'Please upload at least one file.');
                 }
 
-                if (error) {
-                    reject(error.message);
+                if (files.document?.[0].mimetype !== 'application/pdf') {
+                    customEmitter.emit('error', "Please upload a PDF file.");
                 }
             })
 
